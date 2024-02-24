@@ -40,5 +40,5 @@ make -j4
 Run the build
 
 ```bash
-third_party/cef/cef_binary_120.2.5+g618ea46+chromium-120.0.6099.216_linux64/tests/cefsimple/Release/cefsimple
+ RUNE/Release/RUNE
 ```

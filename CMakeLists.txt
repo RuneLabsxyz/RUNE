@@ -149,6 +149,9 @@ add_subdirectory(${CEF_ROOT}/tests/cefsimple)
 add_subdirectory(${CEF_ROOT}/tests/gtest)
 add_subdirectory(${CEF_ROOT}/tests/ceftests)
 
+#My own project
+add_subdirectory(RUNE)
+
 # Allow includes relative to the current source directory.
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
