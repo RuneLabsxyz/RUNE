@@ -61,6 +61,13 @@ set(CEFSIMPLE_RESOURCES_SRCS
   ${CEFSIMPLE_RESOURCES_MAC_ENGLISH_LPROJ_SRCS}
   )
 
+set(MY_APP_RESOURCES
+  resources/index.html
+  resources/index.js
+  resources/style.css
+  )
+source_group(cefsimple\\\\client FILES ${MY_APP_RESOURCES})
+
 
 #
 # Shared configuration.
@@ -238,3 +245,27 @@ if(OS_WINDOWS)
   COPY_FILES("${CEF_TARGET}" "${CEF_BINARY_FILES}" "${CEF_BINARY_DIR}" "${CEF_TARGET_OUT_DIR}")
   COPY_FILES("${CEF_TARGET}" "${CEF_RESOURCE_FILES}" "${CEF_RESOURCE_DIR}" "${CEF_TARGET_OUT_DIR}")
 endif()
+
+
+foreach(RESOURCE ${MY_APP_RESOURCES})
+  get_filename_component(RESOURCE_NAME ${RESOURCE} NAME)
+  # Corrected source path
+  set(SOURCE_PATH "${CMAKE_SOURCE_DIR}/RUNE/resources/${RESOURCE_NAME}")
+
+  # Adjusted destination path to include build type for single-configuration generators
+  # For multi-configuration generators, consider using a generator expression or specific handling
+  if(NOT CMAKE_CONFIGURATION_TYPES)
+    set(DEST_PATH "${CMAKE_BINARY_DIR}/RUNE/${CMAKE_BUILD_TYPE}/resources/${RESOURCE_NAME}")
+  else()
+    # For multi-configuration generators like Visual Studio
+    # This will need to be adjusted based on your project's setup
+    set(DEST_PATH "${CMAKE_BINARY_DIR}/RUNE/$<CONFIG>/resources/${RESOURCE_NAME}")
+  endif()
+
+  add_custom_command(
+    TARGET ${CEF_TARGET} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/RUNE/$<CONFIG>/resources/"
+    COMMAND ${CMAKE_COMMAND} -E copy ${SOURCE_PATH} ${DEST_PATH}
+    COMMENT "Copying resource file: ${RESOURCE_NAME} to ${DEST_PATH}"
+  )
+endforeach()

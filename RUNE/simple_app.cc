@@ -12,6 +12,7 @@
 #include "include/views/cef_window.h"
 #include "include/wrapper/cef_helpers.h"
 #include "tests/cefsimple/simple_handler.h"
+#include <filesystem>
 
 namespace {
 
@@ -78,6 +79,17 @@ class SimpleBrowserViewDelegate : public CefBrowserViewDelegate {
 
 }  // namespace
 
+std::string GetApplicationDirectory() {
+    return std::filesystem::current_path().string();
+}
+
+std::string GetHtmlFilePath() {
+    std::string basePath = GetApplicationDirectory();
+    // Ensure the path is correctly formatted for your platform
+    std::string htmlPath = basePath + "/RUNE/Release/resources/index.html"; // Adjust as necessary
+    return "file://" + htmlPath;
+}
+
 SimpleApp::SimpleApp() {}
 
 void SimpleApp::OnContextInitialized() {
@@ -97,14 +109,10 @@ void SimpleApp::OnContextInitialized() {
   // Specify CEF browser settings here.
   CefBrowserSettings browser_settings;
 
-  std::string url;
-
   // Check if a "--url=" value was provided via the command-line. If so, use
   // that instead of the default URL.
-  url = command_line->GetSwitchValue("url");
-  if (url.empty()) {
-    url = "http://runelabs.xyz";
-  }
+  std::string url = GetHtmlFilePath(); // Get the dynamically constructed file URL
+
 
   if (use_views) {
     // Create the BrowserView.
