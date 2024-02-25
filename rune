@@ -1,0 +1,34 @@
+# Function to build the project
+build_project() {
+  # Create a build directory if it doesn't exist
+  mkdir -p build
+  cd build
+
+  # Run CMake and Make
+  cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release ..
+  make -j4
+
+  # Navigate back to the original directory
+  cd ..
+}
+
+# Function to run the project
+run_project() {
+
+  cd build
+  # Execute the binary
+  ./RUNE/Release/RUNE
+}
+
+# Check the first argument to determine the action
+case "$1" in
+  build)
+    build_project
+    ;;
+  run)
+    run_project
+    ;;
+  *)
+    echo "Usage: $0 {build|run}"
+    ;;
+esac
