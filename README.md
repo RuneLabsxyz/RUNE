@@ -32,13 +32,11 @@ cd build/
 Create the build
 
 ```bash
-# architecture (x64, ARM or ARM64):
-cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release ..
-make -j4
+./rune build
 ```
 
 Run the build
 
 ```bash
- RUNE/Release/RUNE
+./rune run
 ```
