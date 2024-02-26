@@ -69,6 +69,22 @@ set(MY_APP_RESOURCES
 source_group(cefsimple\\\\client FILES ${MY_APP_RESOURCES})
 
 
+###
+# Build the web app
+###
+set(SVELTE_PROJECT_DIR "${CMAKE_SOURCE_DIR}/RUNE/web-app")
+
+add_custom_command(
+  OUTPUT ${SVELTE_PROJECT_DIR}/build
+  COMMAND npm install
+  COMMAND npm run build
+  WORKING_DIRECTORY "${SVELTE_PROJECT_DIR}"
+  COMMENT "Building web app"
+)
+
+add_custom_target(BuildSvelte ALL DEPENDS ${SVELTE_PROJECT_DIR}/build)
+
+
 #
 # Shared configuration.
 #
