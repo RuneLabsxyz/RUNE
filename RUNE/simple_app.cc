@@ -86,7 +86,7 @@ std::string GetApplicationDirectory() {
 std::string GetHtmlFilePath() {
     std::string basePath = GetApplicationDirectory();
     // Ensure the path is correctly formatted for your platform
-    std::string htmlPath = basePath + "/RUNE/Release/resources/index.html"; // Adjust as necessary
+    std::string htmlPath = basePath + "/RUNE/Release/web-app/home.html"; // Adjust as necessary
     return "file://" + htmlPath;
 }
 
