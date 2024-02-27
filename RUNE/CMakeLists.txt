@@ -270,34 +270,3 @@ add_custom_command(
             ${SVELTE_PROJECT_DIR}/build ${SVELTE_BUILD_DEST_DIR}
     COMMENT "Copying Svelte build output to CEF resources directory"
 )
-
-set(NODEJS_BINARY_PATH "${CMAKE_SOURCE_DIR}/RUNE/node")
-set(SERVER_SCRIPT_PATH "${CMAKE_SOURCE_DIR}/RUNE/server")
-
-# Destination directory for Node.js binary and server script
-set(NODE_SERVER_DEST_DIR "${SVELTE_BUILD_DEST_DIR}/server")
-
-# Copy the Node.js binary
-add_custom_command(
-    TARGET BuildSvelte POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${NODE_SERVER_DEST_DIR}
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-            ${NODEJS_BINARY_PATH} ${NODE_SERVER_DEST_DIR}
-    COMMENT "Copying Node.js binary to the server directory"
-)
-
-# Copy the server script
-add_custom_command(
-    TARGET BuildSvelte POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-            ${SERVER_SCRIPT_PATH}/server.js ${NODE_SERVER_DEST_DIR}
-    COMMENT "Copying server script to the server directory"
-)
-
-if(UNIX)
-    add_custom_command(
-        TARGET BuildSvelte POST_BUILD
-        COMMAND chmod +x ${NODE_SERVER_DEST_DIR}/node
-        COMMENT "Setting execute permissions for the Node.js binary"
-    )
-endif()
