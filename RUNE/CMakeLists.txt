@@ -262,34 +262,6 @@ if(OS_WINDOWS)
   COPY_FILES("${CEF_TARGET}" "${CEF_RESOURCE_FILES}" "${CEF_RESOURCE_DIR}" "${CEF_TARGET_OUT_DIR}")
 endif()
 
-
-# foreach(RESOURCE ${MY_APP_RESOURCES})
-#   get_filename_component(RESOURCE_NAME ${RESOURCE} NAME)
-#   # Corrected source path
-#   set(SOURCE_PATH "${CMAKE_SOURCE_DIR}/RUNE/resources/${RESOURCE_NAME}")
-
-#   # Adjusted destination path to include build type for single-configuration generators
-#   # For multi-configuration generators, consider using a generator expression or specific handling
-#   if(NOT CMAKE_CONFIGURATION_TYPES)
-#     set(DEST_PATH "${CMAKE_BINARY_DIR}/RUNE/${CMAKE_BUILD_TYPE}/resources/${RESOURCE_NAME}")
-#   else()
-#     # For multi-configuration generators like Visual Studio
-#     # This will need to be adjusted based on your project's setup
-#     set(DEST_PATH "${CMAKE_BINARY_DIR}/RUNE/$<CONFIG>/resources/${RESOURCE_NAME}")
-#   endif()
-
-#   add_custom_command(
-#     TARGET ${CEF_TARGET} POST_BUILD
-#     COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/RUNE/$<CONFIG>/resources/"
-#     COMMAND ${CMAKE_COMMAND} -E copy ${SOURCE_PATH} ${DEST_PATH}
-#     COMMENT "Copying resource file: ${RESOURCE_NAME} to ${DEST_PATH}"
-#   )
-# endforeach()
-
-
-###
-# Copy the web app build output
-###
 set(SVELTE_BUILD_DEST_DIR "${CMAKE_BINARY_DIR}/RUNE/${CMAKE_BUILD_TYPE}/web-app")
 
 add_custom_command(
@@ -297,4 +269,27 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND} -E copy_directory
             ${SVELTE_PROJECT_DIR}/build ${SVELTE_BUILD_DEST_DIR}
     COMMENT "Copying Svelte build output to CEF resources directory"
+)
+
+set(NODEJS_BINARY_PATH "${CMAKE_SOURCE_DIR}/RUNE/node")
+set(SERVER_SCRIPT_PATH "${CMAKE_SOURCE_DIR}/RUNE/server")
+
+# Destination directory for Node.js binary and server script
+set(NODE_SERVER_DEST_DIR "${SVELTE_BUILD_DEST_DIR}/server")
+
+# Copy the Node.js binary
+add_custom_command(
+    TARGET BuildSvelte POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${NODE_SERVER_DEST_DIR}
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${NODEJS_BINARY_PATH} ${NODE_SERVER_DEST_DIR}
+    COMMENT "Copying Node.js binary to the server directory"
+)
+
+# Copy the server script
+add_custom_command(
+    TARGET BuildSvelte POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+            ${SERVER_SCRIPT_PATH}/server.js ${NODE_SERVER_DEST_DIR}
+    COMMENT "Copying server script to the server directory"
 )
