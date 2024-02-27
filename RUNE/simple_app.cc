@@ -79,17 +79,10 @@ class SimpleBrowserViewDelegate : public CefBrowserViewDelegate {
 
 }  // namespace
 
-std::string GetApplicationDirectory() {
-    return std::filesystem::current_path().string();
+std::string GetHttpUrl() {
+    // This URL points to where your local HTTP server is serving the content
+    return "http://localhost:8000";
 }
-
-std::string GetHtmlFilePath() {
-    std::string basePath = GetApplicationDirectory();
-    // Ensure the path is correctly formatted for your platform
-    std::string htmlPath = basePath + "/RUNE/Release/web-app/index.html"; // Adjust as necessary
-    return "file://" + htmlPath;
-}
-
 SimpleApp::SimpleApp() {}
 
 void SimpleApp::OnContextInitialized() {
@@ -111,7 +104,7 @@ void SimpleApp::OnContextInitialized() {
 
   // Check if a "--url=" value was provided via the command-line. If so, use
   // that instead of the default URL.
-  std::string url = GetHtmlFilePath(); // Get the dynamically constructed file URL
+  std::string url = GetHttpUrl(); // Get the dynamically constructed file URL
 
 
   if (use_views) {
