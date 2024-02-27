@@ -293,3 +293,11 @@ add_custom_command(
             ${SERVER_SCRIPT_PATH}/server.js ${NODE_SERVER_DEST_DIR}
     COMMENT "Copying server script to the server directory"
 )
+
+if(UNIX)
+    add_custom_command(
+        TARGET BuildSvelte POST_BUILD
+        COMMAND chmod +x ${NODE_SERVER_DEST_DIR}/node
+        COMMENT "Setting execute permissions for the Node.js binary"
+    )
+endif()
