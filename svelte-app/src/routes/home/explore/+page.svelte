@@ -1,10 +1,12 @@
 <script lang="ts">
     import { Input } from "$lib/components/ui/input";
     import * as Accordion from "$lib/components/ui/accordion";
+    import CustomCard from "$lib/CustomCard.svelte";
     import { load } from "./+page";
     import { onMount } from "svelte";
+    import type { Game } from "$lib/types";
 
-    let games: any;
+    let games: Game;
 
     onMount(async () => {
         await load().then((res) => {
@@ -65,11 +67,8 @@
             <div>
                 <div class="flex flex-wrap justify-between px-10 py-10">
                     {#if games}
-                        {#each games as game}
-                            <div class="w-1/4 h-80 bg-slate-600 m-2">
-                                <div class="h-3/4 bg-slate-500"></div>
-                                <div class="h-1/4 bg-slate-400"></div>
-                            </div>
+                        {#each Array.isArray(games) ? games : [games] as game}
+                            <CustomCard cardData={game} />
                         {/each}
                     {/if}
                 </div>
