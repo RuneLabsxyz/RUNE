@@ -53,7 +53,32 @@ onMount(async () => {
           </div>
           <div>
               <div class="flex flex-wrap justify-between px-10 py-10">
-
+                  <div class="w-1/2">
+                      <div class="flex flex-col">
+                          <div class="text-2xl font-bold">Description</div>
+                          <div class="text-sm">{gameData.description}</div>
+                      </div>
+                  </div>
+                  <div class="w-1/2">
+                    <div>
+                      <img src={gameData.image} alt="Game Image" class="w-full h-96 object-cover">
+                    </div>
+                      <div class="flex flex-col">
+                          <div class="text-2xl font-bold">Game Details</div>
+                          <div class="flex">
+                            <div class="text-sm px-5">Chain: {gameData.chain}</div>
+                            <div class="text-sm px-5">Genre: {gameData.genre}</div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div>
+                <Button size="lg" on:click={() => goto(`/game/${gameData.id}/play`)}>
+                  Add to Library
+                </Button>
+                <Button size="lg" on:click={() => goto(`/game/${gameData.id}/play`)}>
+                  Play Game
+                </Button>
               </div>
           </div>
       </div>
