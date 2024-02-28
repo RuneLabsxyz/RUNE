@@ -20,8 +20,11 @@
             <div class="bg-white p-4">
                 <h1 class="text-2xl">Overlay</h1>
                 <p>This is an overlay</p>
-                <Metamask />
+            
             </div>
+        </div>
+        <div class="absolute top-1/2 left-1/4 transform -translate-x-1/2 -translate-y-1/2">
+            <Metamask />
         </div>
     </div>
 {/if}
