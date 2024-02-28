@@ -1,0 +1,17 @@
+# Define the port number
+PORT=3000
+
+# Find the process ID (PID) using the specified port
+PID=$(lsof -t -i:$PORT)
+
+# If PID is not empty (i.e., there's a process using the port), kill the process
+if [ -n "$PID" ]; then
+    echo "Killing process using port $PORT..."
+    kill -9 $PID
+fi
+
+# Change directory to App
+cd App
+
+# Start the server
+node server.js &
