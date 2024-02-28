@@ -9,11 +9,11 @@
             <img src={logo} alt="Company logo" class="h-[4rem] p-2">
         </div>  
         <div class="flex text-center items-center">
-            <button class="p-3" on:click={() => goto('/home/library')}>Section 1</button>
-            <button class="p-3" on:click={() => goto('/home/explore')}>Section 2</button>
+            <button class="p-3" on:click={() => goto('/home/library')}>Library</button>
+            <button class="p-3" on:click={() => goto('/home/explore')}>Explore</button>
         </div>
-        <div class="">
-            qsdfqsdfqsdfqsdfqsfdqsdfqsdfqsdfqdsfqsdf
+        <div class="pr-5">
+            Account
         </div>
     </div>
 
