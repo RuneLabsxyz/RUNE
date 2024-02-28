@@ -1,11 +1,16 @@
 <script lang="ts">
 
-    import { onMount } from 'svelte';
+    import { onMount} from 'svelte';
+    import Overlay from '$lib/overlay/Overlay.svelte';
     import type { Game } from "$lib/types";
+    const logo = '/images/sigle.png';
+
 
     export let data;
-
     let gameData: Game;
+    let overlayActive = false;
+
+
 
     async function load(data: any) {
         const res = await fetch(`http://localhost:3000/api/games/${data.slug}`);
@@ -19,12 +24,12 @@
         }).catch((err) => {
             console.log(err);
         });
-        console.log(gameData);
-        console.log(gameData.link);
     });
-
   </script>
+<Overlay isVisible={overlayActive}/>
 
-{#if gameData}
-    <iframe src={gameData.link} class="w-full h-screen"></iframe>
-{/if}
+<div class="relative w-full h-screen">
+    {#if gameData}
+        <iframe src={gameData.link} class="absolute w-full h-screen"></iframe>
+    {/if}
+</div>
