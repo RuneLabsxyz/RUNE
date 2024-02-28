@@ -2,8 +2,8 @@
     import { Input } from "$lib/components/ui/input";
     import * as Accordion from "$lib/components/ui/accordion";
 
-    const list = 'svgs/list.svg'
-    const apps = 'svgs/apps.svg'
+    const list = '/svgs/list.svg'
+    const apps = '/svgs/apps.svg'
 </script>
 
 <div class="flex flex-col h-screen bg-slate-700">

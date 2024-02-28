@@ -1,5 +1,6 @@
 <script>
-    const logo = 'images/logo.png';
+    import { goto } from "$app/navigation";
+    const logo = '/images/logo.png';
 </script>
 
 <!-- Header -->
@@ -8,8 +9,8 @@
             <img src={logo} alt="Company logo" class="h-[4rem] p-2">
         </div>  
         <div class="flex text-center items-center">
-            <div class="p-3">Section 1</div>
-            <div class="p-3">Section 2</div>
+            <button class="p-3" on:click={() => goto('/home/library')}>Section 1</button>
+            <button class="p-3" on:click={() => goto('/home/explore')}>Section 2</button>
         </div>
         <div class="">
             qsdfqsdfqsdfqsdfqsfdqsdfqsdfqsdfqdsfqsdf
