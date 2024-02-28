@@ -10,20 +10,20 @@
   export let data;
   let gameData: Game;
 
-async function load(data: any) {
-    const res = await fetch(`http://localhost:3000/api/games/${data.slug}`);
-    const games = await res.json();
-    return { games };
-}
+  async function load(data: any) {
+      const res = await fetch(`http://localhost:3000/api/games/${data.slug}`);
+      const games = await res.json();
+      return { games };
+  }
 
-onMount(async () => {
-    await load(data).then((res) => {
-      gameData = res.games;
-    }).catch((err) => {
-        console.log(err);
-    });
-    console.log(gameData);
-});
+  onMount(async () => {
+      await load(data).then((res) => {
+        gameData = res.games;
+      }).catch((err) => {
+          console.log(err);
+      });
+      console.log(gameData);
+  });
 
 </script>
 {#if gameData}
@@ -76,7 +76,7 @@ onMount(async () => {
                 <Button size="lg" on:click={() => goto(`/game/${gameData.id}/play`)}>
                   Add to Library
                 </Button>
-                <Button size="lg" on:click={() => goto(`/game/${gameData.id}/play`)}>
+                <Button size="lg" on:click={() => goto(`/play/${gameData.id}/`)}>
                   Play Game
                 </Button>
               </div>
