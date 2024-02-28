@@ -30,6 +30,6 @@
 
 <div class="relative w-full h-screen">
     {#if gameData}
-        <iframe src={gameData.link} class="absolute w-full h-screen"></iframe>
+        <iframe title="game" src={gameData.link} class="absolute w-full h-screen"></iframe>
     {/if}
 </div>

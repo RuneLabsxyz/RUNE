@@ -26,7 +26,9 @@
 
 <div class="absolute top-0 left-0 z-50 pointer-events-none">
     <div class="p-4 pointer-events-auto">
-        <img src={logo} alt="Company logo" class="h-[4rem] p-2" on:click={() => isVisible =! isVisible}>
+        <button type="button" class="p-2" on:click={() => isVisible = !isVisible} aria-label="Toggle visibility">
+            <img src={logo} alt="Company logo" class="h-[4rem]">
+        </button>
     </div>
 </div>
   
