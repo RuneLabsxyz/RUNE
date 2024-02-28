@@ -6,6 +6,9 @@
 
   const back = '/svgs/back.svg'
 
+  function openInNewTab(url: string) {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }
 
   export let data;
   let gameData: Game;
@@ -76,7 +79,7 @@
                 <Button size="lg" on:click={() => goto(`/game/${gameData.id}/play`)}>
                   Add to Library
                 </Button>
-                <Button size="lg" on:click={() => goto(`/play/${gameData.id}/`)}>
+                <Button size="lg" on:click={() => openInNewTab(`/play/${gameData.id}/`)}>
                   Play Game
                 </Button>
               </div>
