@@ -1,5 +1,6 @@
 <script>
     import { createEventDispatcher } from 'svelte';
+    import Metamask from './metamask/Metamask.svelte';
     const logo = '/images/sigle.png';
 
     // Prop to control visibility
@@ -19,6 +20,7 @@
             <div class="bg-white p-4">
                 <h1 class="text-2xl">Overlay</h1>
                 <p>This is an overlay</p>
+                <Metamask />
             </div>
         </div>
     </div>

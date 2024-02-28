@@ -1,6 +1,5 @@
 <script>
     import { goto } from "$app/navigation";
-    import Overlay from "$lib/overlay/Overlay.svelte";
     const logo = '/images/logo.png';
 </script>
 
@@ -18,6 +17,5 @@
         </div>
     </div>
 
-    <Overlay />
 
 <slot />
