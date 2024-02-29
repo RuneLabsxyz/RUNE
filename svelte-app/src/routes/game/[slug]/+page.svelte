@@ -14,7 +14,7 @@
   let gameData: Game;
 
   async function load(data: any) {
-      const res = await fetch(`http://localhost:3000/api/games/${data.slug}`);
+      const res = await fetch(`http://localhost:8000/api/games/${data.slug}`);
       const games = await res.json();
       return { games };
   }
