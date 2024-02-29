@@ -1,0 +1,15 @@
+{
+  "name": "rune",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "mkdir -p App && cd svelte-app && npm run build && rm -rf ../App/build && cp -R build ../App/build && cp -R server/* ../App/ && cd .. && cd App && npm init -y && npm install express",
+    "dev": "cd App && node server.js",
+    "local": "cd svelte-app && npm run dev",
+    "package": "cd App && npm install -g pkg && pkg . --out-path ./packaged-apps"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
