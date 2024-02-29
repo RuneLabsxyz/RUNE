@@ -6,6 +6,8 @@
     import { onMount } from "svelte";
     import type { Game } from "$lib/types";
 
+    const list = '/svgs/list.svg'
+    const apps = '/svgs/apps.svg'
     let games: Game;
 
     onMount(async () => {
@@ -15,9 +17,7 @@
             console.log(err);
         });
     });
-
-    const list = '/svgs/list.svg'
-    const apps = '/svgs/apps.svg'
+    
 </script>
 
 <div class="flex flex-col h-screen bg-slate-700">

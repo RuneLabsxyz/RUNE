@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { handler } from './build/handler.js'; // Adjust the path as necessary
+import axios from 'axios';
 
 const app = express();
 const port = 3000;
@@ -12,19 +13,12 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // Serve static files from the 'static' directory (if you have any)
 app.use(express.static(path.join(__dirname, 'build', 'static')));
 
-// Use the SvelteKit handler to handle all other requests
-app.all('*', (req, res) => {
-  handler(req, res);
-});
-
-
-
 app.get('/download-game', async (req, res) => {
   // Extract the game URL from the query parameter
   const gameUrl = req.query.url;
 
   // Basic validation of the URL (Implement more robust validation based on your requirements)
-  if (!gameUrl || !gameUrl.startsWith('https://trusted-source.com/')) {
+  if (!gameUrl) {
     return res.status(400).send('Invalid URL');
   }
 
@@ -36,7 +30,7 @@ app.get('/download-game', async (req, res) => {
     });
 
     // Set headers to indicate a file download
-    res.setHeader('Content-Disposition', `attachment; filename=${encodeURIComponent(new URL(gameUrl).pathname.split('/').pop())}`);
+    res.setHeader('Content-Disposition', 'attachment; filename="game.zip"');
     res.setHeader('Content-Type', 'application/zip');
 
     // Pipe the download stream directly to the client
@@ -47,6 +41,12 @@ app.get('/download-game', async (req, res) => {
   }
 });
 
+// Use the SvelteKit handler to handle all other requests
+app.all('*', (req, res) => {
+  handler(req, res);
+});
+
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
 });
+
