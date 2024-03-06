@@ -4,6 +4,7 @@
     import Overlay from '$lib/overlay/Overlay.svelte';
     import type { Game } from "$lib/types";
     const logo = '/images/sigle.png';
+    import { url } from '$lib/api';
 
 
     export let data;
@@ -13,7 +14,7 @@
 
 
     async function load(data: any) {
-        const res = await fetch(`http://localhost:3000/api/games/${data.slug}`);
+        const res = await fetch(`${url}/games/${data.slug}`);
         const games = await res.json();
         return { games };
     }

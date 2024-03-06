@@ -1,5 +1,8 @@
+import { url } from '$lib/api';
+
 export async function load() {
-    const res = await fetch('http://localhost:8000/api/games');
+    console.log('url', url);
+    const res = await fetch(`${url}/games`);
     const games = await res.json();
     return { games };
 }

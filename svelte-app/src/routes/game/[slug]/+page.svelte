@@ -3,6 +3,7 @@
   import type { Game } from "$lib/types";
   import { Button } from "$lib/components/ui/button";
   import { goto } from '$app/navigation';
+  import { url } from '$lib/api';
 
   const back = '/svgs/back.svg'
 
@@ -14,7 +15,7 @@
   let gameData: Game;
 
   async function load(data: any) {
-      const res = await fetch(`http://localhost:8000/api/games/${data.slug}`);
+      const res = await fetch(`${url}/games/${data.slug}`);
       const games = await res.json();
       return { games };
   }

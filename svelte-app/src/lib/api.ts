@@ -1,0 +1,1 @@
+export const url = 'http://runelabs.xyz/api/base/';
