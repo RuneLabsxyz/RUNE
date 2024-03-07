@@ -1,1 +1,1 @@
-export const url = 'http://runelabs.xyz/api/base/';
+export const url = 'http://localhost:8000/api';
