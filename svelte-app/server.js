@@ -52,7 +52,7 @@ app.get('/download-game', async (req, res) => {
     response.data.pipe(res);
 
     // Log the download
-    logDownload(gameUrl, fileName);
+    // logDownload(gameUrl, fileName);
   } catch (error) {
     console.error('Error downloading the game:', error);
     res.status(500).send('Failed to download the game');

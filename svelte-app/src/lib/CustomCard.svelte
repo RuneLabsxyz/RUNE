@@ -15,8 +15,12 @@
         } 
     }
 
-    async function downloadGame(gameUrl: string) {
-        console.log(gameUrl);
+    async function downloadGameZip(zip: string) {
+    }
+
+    async function downloadGameUrl(url: string) {
+        // Redirect to the Express endpoint with the game URL as a query parameter
+        window.location.href = `/download-game?url=${encodeURIComponent(url)}`;
     }
 
 </script>
@@ -36,7 +40,7 @@
         </Card.Content>
         <Card.Footer>
             {#if hasInstallZip}
-                <Button on:click={() => downloadGame(cardData.zip_file)} variant="outline">Install</Button>
+                <Button on:click={() => downloadGameZip(cardData.zip_file)} variant="outline">Install</Button>
             {:else}
                 <AlertDialog.Root>
                     <AlertDialog.Trigger asChild let:builder>
@@ -52,7 +56,7 @@
                         <AlertDialog.Footer>
                             <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
                             <AlertDialog.Action on:click={() => {
-                                downloadGame(cardData.link);
+                                downloadGameUrl(cardData.link);
                             }}>Continue</AlertDialog.Action>                    
                         </AlertDialog.Footer>
                     </AlertDialog.Content>
