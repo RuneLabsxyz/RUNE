@@ -17,7 +17,8 @@
     }
 
 
-    const addToLibrary = () => {
+    const addToLibrary = (e: Event) => {
+        e.stopPropagation();
         console.log('Added to Library', cardData.id);
         downloadGame(cardData.link);
     }
@@ -36,7 +37,7 @@
             </div>
         </Card.Content>
         <Card.Footer>
-            <Button on:click={addToLibrary}>Add to Library</Button>
+            <Button on:click={addToLibrary} class="">Add to Library</Button>
         </Card.Footer>
     </Card.Root>
 </button>
