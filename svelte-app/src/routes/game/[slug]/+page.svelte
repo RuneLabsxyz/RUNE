@@ -65,7 +65,7 @@
                   </div>
                   <div class="w-1/2">
                     <div>
-                      <img src={gameData.image} alt="Game Image" class="w-full h-96 object-cover">
+                      <img src={gameData.image} alt="Game Image" class="w-full h-96 object-cover" aria-hidden="true">
                     </div>
                       <div class="flex flex-col">
                           <div class="text-2xl font-bold">Game Details</div>
