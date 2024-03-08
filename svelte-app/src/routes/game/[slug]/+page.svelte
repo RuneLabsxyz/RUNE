@@ -70,8 +70,8 @@
                       <div class="flex flex-col">
                           <div class="text-2xl font-bold">Game Details</div>
                           <div class="flex">
-                            <div class="text-sm px-5">Chain: {gameData.chain}</div>
-                            <div class="text-sm px-5">Genre: {gameData.genre}</div>
+                            <div class="text-sm px-5">Chain: {gameData.blockchain}</div>
+                            <div class="text-sm px-5">Genre: {gameData.game_category}</div>
                           </div>
                       </div>
                   </div>

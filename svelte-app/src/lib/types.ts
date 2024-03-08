@@ -4,6 +4,6 @@ export interface Game {
     description: string;
     blockchain: string;
     link: string;
-    genre: string;
+    game_category: string;
     image: string;
 }

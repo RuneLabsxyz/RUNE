@@ -30,8 +30,10 @@
         </Card.Header>
         <Card.Content>
             <img src={cardData.image} alt={cardData.name} />
-
-            <p>{cardData.blockchain}</p>
+            <div class="flex ">
+                <p class="px-5">{cardData.blockchain}</p> 
+                <p>{cardData.game_category}</p>
+            </div>
         </Card.Content>
         <Card.Footer>
             <Button on:click={addToLibrary}>Add to Library</Button>
