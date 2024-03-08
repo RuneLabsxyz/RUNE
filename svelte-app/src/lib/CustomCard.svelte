@@ -2,28 +2,26 @@
     import * as Card from "$lib/components/ui/card";
     import { Button } from "$lib/components/ui/button";
     import { goto } from "$app/navigation";
+    import * as AlertDialog from "$lib/components/ui/alert-dialog";
 
     import type { Game } from "$lib/types";
 
     export let cardData: Game;
 
+    let hasInstallZip = false;
+    
+    $: { if (cardData.zip_file) {
+        hasInstallZip = true;
+        } 
+    }
+
     async function downloadGame(gameUrl: string) {
-        if (!gameUrl) {
-            alert('Please enter a valid URL');
-            return;
-        }
-        // Redirect to the Express endpoint with the game URL as a query parameter
-        window.location.href = `/download-game?url=${encodeURIComponent(gameUrl)}`;
+        console.log(gameUrl);
     }
 
-
-    const addToLibrary = (e: Event) => {
-        e.stopPropagation();
-        console.log('Added to Library', cardData.id);
-        downloadGame(cardData.link);
-    }
 </script>
-    <button on:click={() => goto(`/game/${cardData.id}/`)}>
+
+<button on:click={() => goto(`/game/${cardData.id}/`)}>
     <Card.Root>
         <Card.Header>
         <Card.Title>{cardData.name}</Card.Title>
@@ -37,7 +35,30 @@
             </div>
         </Card.Content>
         <Card.Footer>
-            <Button on:click={addToLibrary} class="">Add to Library</Button>
+            {#if hasInstallZip}
+                <Button on:click={() => downloadGame(cardData.zip_file)} variant="outline">Install</Button>
+            {:else}
+                <AlertDialog.Root>
+                    <AlertDialog.Trigger asChild let:builder>
+                    <Button builders={[builder]} on:click={(e) => {e.stopPropagation()}}  variant="outline">Install</Button>
+                    </AlertDialog.Trigger>
+                    <AlertDialog.Content>
+                    <AlertDialog.Header>
+                        <AlertDialog.Title>Warning</AlertDialog.Title>
+                        <AlertDialog.Description>
+                            This game doesn't come with a prepackaged zip file that we have verified. If you want to continue, Rune will directly download the game via the url: {cardData.link}
+                        </AlertDialog.Description>
+                    </AlertDialog.Header>
+                        <AlertDialog.Footer>
+                            <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+                            <AlertDialog.Action on:click={() => {
+                                downloadGame(cardData.link);
+                            }}>Continue</AlertDialog.Action>                    
+                        </AlertDialog.Footer>
+                    </AlertDialog.Content>
+                </AlertDialog.Root>
+              {/if}
         </Card.Footer>
     </Card.Root>
 </button>
+
