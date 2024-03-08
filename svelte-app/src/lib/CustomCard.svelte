@@ -29,8 +29,9 @@
         <Card.Description>{cardData.description}</Card.Description>
         </Card.Header>
         <Card.Content>
-        <p>Image</p>
-        <p>{cardData.chain}</p>
+            <img src={cardData.image} alt={cardData.name} />
+
+            <p>{cardData.blockchain}</p>
         </Card.Content>
         <Card.Footer>
             <Button on:click={addToLibrary}>Add to Library</Button>
