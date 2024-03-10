@@ -28,9 +28,16 @@ if (!fs.existsSync(LOG_FILE_PATH)) {
 
 // Serve static files from the 'static' directory (if you have any)
 app.use(express.static(path.join(__dirname, 'build', 'static')));
+app.use(express.json());
 
-app.get('/download-game', async (req, res) => {
-  const gameUrl = req.query.url;
+app.post('/download-game', async (req, res) => {
+  const gameData = req.body;
+
+  if (!gameData) {
+    return res.status(400).send('Invalid game data');
+  }
+
+  const gameUrl = gameData.link;
 
   if (!gameUrl) {
     return res.status(400).send('Invalid URL');
@@ -52,7 +59,7 @@ app.get('/download-game', async (req, res) => {
     response.data.pipe(res);
 
     // Log the download
-    // logDownload(gameUrl, fileName);
+    // logDownload(gameData);
   } catch (error) {
     console.error('Error downloading the game:', error);
     res.status(500).send('Failed to download the game');
