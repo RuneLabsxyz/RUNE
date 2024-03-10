@@ -18,29 +18,10 @@
     async function downloadGameZip(zip: string) {
     }
 
-    async function downloadGameUrl(gameData: Game) {
-    try {
-        const response = await fetch('/download-game', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(gameData),
-        });
-
-        if (response.ok) {
-            // Handle successful download initiation here
-            // You might need to adjust this part based on how you want to trigger the download
-            alert('Download initiated successfully');
-        } else {
-            // Handle server errors or invalid responses
-            alert('Failed to initiate download');
-        }
-    } catch (error) {
-        console.error('Error sending download request:', error);
-        alert('Error initiating download');
+    async function downloadGameUrl(url: string) {
+        // Redirect to the Express endpoint with the game URL as a query parameter
+        window.location.href = `/download-game?url=${encodeURIComponent(url)}`;
     }
-}
 
 </script>
 
@@ -75,7 +56,7 @@
                         <AlertDialog.Footer>
                             <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
                             <AlertDialog.Action on:click={() => {
-                                downloadGameUrl(cardData);
+                                downloadGameUrl(cardData.link);
                             }}>Continue</AlertDialog.Action>                    
                         </AlertDialog.Footer>
                     </AlertDialog.Content>
