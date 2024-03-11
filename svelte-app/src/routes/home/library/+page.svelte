@@ -1,18 +1,20 @@
-<script>
+<script lang="ts">
     import { Input } from "$lib/components/ui/input";
     import * as Accordion from "$lib/components/ui/accordion";
     import { onMount } from 'svelte';
+    import GameCard from "$lib/GameCard.svelte";
+    import type { Game } from "$lib/types";
 
     const list = '/svgs/list.svg'
     const apps = '/svgs/apps.svg'
 
 
-    let logData = [];
+    let games: Game;
 
     onMount(async () => {
         const response = await fetch('/home/library/data');
         if (response.ok) {
-            logData = await response.json();
+            games = await response.json();
         } else {
             console.error('Failed to fetch log data');
         }
@@ -61,12 +63,18 @@
                 <div class="flex uppercase text-xl item-center">
                     <div class="pr-14">Featured</div>
                     <div class="pr-14">Favorites</div>
-                    <div>Wishlist</div>
                 </div>
                 <div class="flex item-center">
                     <img src={apps} alt="Company logo" class="h-[30px] px-3">
                     <img src={list} alt="Company logo" class="h-[30px] px-3">
                 </div>
+            </div>
+            <div class="flex flex-wrap justify-between px-10 py-10">
+                {#if games}
+                    {#each Array.isArray(games) ? games : [games] as game}
+                        <GameCard cardData={game} />
+                    {/each}  
+                {/if}
             </div>
         </div>
     </div>
