@@ -3,6 +3,7 @@
   import type { Game } from "$lib/types";
   import { Button } from "$lib/components/ui/button";
   import { goto } from '$app/navigation';
+  import { url } from '$lib/api';
 
   const back = '/svgs/back.svg'
 
@@ -14,7 +15,7 @@
   let gameData: Game;
 
   async function load(data: any) {
-      const res = await fetch(`http://localhost:8000/api/games/${data.slug}`);
+      const res = await fetch(`${url}/games/${data.slug}`);
       const games = await res.json();
       return { games };
   }
@@ -64,13 +65,13 @@
                   </div>
                   <div class="w-1/2">
                     <div>
-                      <img src={gameData.image} alt="Game Image" class="w-full h-96 object-cover">
+                      <img src={gameData.image} alt="Game Image" class="w-full h-96 object-cover" aria-hidden="true">
                     </div>
                       <div class="flex flex-col">
                           <div class="text-2xl font-bold">Game Details</div>
                           <div class="flex">
-                            <div class="text-sm px-5">Chain: {gameData.chain}</div>
-                            <div class="text-sm px-5">Genre: {gameData.genre}</div>
+                            <div class="text-sm px-5">Chain: {gameData.blockchain}</div>
+                            <div class="text-sm px-5">Genre: {gameData.game_category}</div>
                           </div>
                       </div>
                   </div>

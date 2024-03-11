@@ -58,7 +58,6 @@
         </div>
         <div class="w-3/4 bg-slate-700 ">
             <div class="flex justify-between item-center border-b py-3 mr-10">
-                <div></div>
                 <div class="flex item-center ">
                     <img src={apps} alt="Company logo" class="h-[30px] px-3">
                     <img src={list} alt="Company logo" class="h-[30px] px-3">
@@ -69,9 +68,14 @@
                     {#if games}
                         {#each Array.isArray(games) ? games : [games] as game}
                             <CustomCard cardData={game} />
-                        {/each}
+                        {/each}  
                     {/if}
                 </div>
+                {#if !games}
+                    <div class="flex justify-center item-center text-white">
+                        Failed to load games try again later
+                    </div>
+                {/if}
             </div>
         </div>
     </div>

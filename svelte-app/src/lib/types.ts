@@ -2,7 +2,10 @@ export interface Game {
     id: number;
     name: string;
     description: string;
-    chain: string;
+    blockchain: string;
     link: string;
-    genre: string;
+    game_category: string;
+    image: string;
+    zip_file: string;
+    game_id: string;
 }
