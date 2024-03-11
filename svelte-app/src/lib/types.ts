@@ -7,4 +7,5 @@ export interface Game {
     game_category: string;
     image: string;
     zip_file: string;
+    game_id: string;
 }

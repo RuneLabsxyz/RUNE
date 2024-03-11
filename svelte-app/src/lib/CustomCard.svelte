@@ -20,7 +20,13 @@
 
     async function downloadGameUrl(url: string) {
         // Redirect to the Express endpoint with the game URL as a query parameter
-        window.location.href = `/download-game?url=${encodeURIComponent(url)}`;
+        let response = await fetch("/game/download", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(cardData)
+        });
     }
 
 </script>
