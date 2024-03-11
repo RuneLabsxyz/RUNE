@@ -27,7 +27,6 @@ export const POST: RequestHandler = async ({ request }) => {
             headers: { 'Content-Type': 'application/json' },
         });
     } catch (error) {
-        // Handle errors, such as parsing errors or fetch errors
         return new Response(JSON.stringify({ error: error.message }), {
             status: 400,
             headers: { 'Content-Type': 'application/json' },
@@ -52,30 +51,25 @@ function downloadWebsite(url: string, destination: string) {
     const logFilePath = path.join(downloadsDir, 'downloadedGamesLog.json');
 
     try {
-        // Read the existing log file or start with an empty array if the file does not exist
         let gamesLog = [];
         try {
             const logContent = await fsPromises.readFile(logFilePath, 'utf8');
             gamesLog = JSON.parse(logContent);
         } catch (error) {
-            if (error.code !== 'ENOENT') throw error; // Ignore file not found errors
+            if (error.code !== 'ENOENT') throw error; 
         }
 
-        // Check if the game is already logged
         const existingIndex = gamesLog.findIndex((logEntry) => logEntry.game_id === game.game_id);
 
         if (existingIndex > -1) {
-            // Update existing entry
             gamesLog[existingIndex] = game;
         } else {
-            // Add new entry
             gamesLog.push(game);
         }
 
-        // Write the updated log back to the file
         await fsPromises.writeFile(logFilePath, JSON.stringify(gamesLog, null, 2), 'utf8');
     } catch (error) {
         console.error('Failed to log download:', error);
-        throw error; // Rethrow the error to handle it in the calling context
+        throw error; 
     }
 }
