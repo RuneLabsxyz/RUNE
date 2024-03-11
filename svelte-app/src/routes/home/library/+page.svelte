@@ -1,9 +1,23 @@
 <script>
     import { Input } from "$lib/components/ui/input";
     import * as Accordion from "$lib/components/ui/accordion";
+    import { onMount } from 'svelte';
 
     const list = '/svgs/list.svg'
     const apps = '/svgs/apps.svg'
+
+
+    let logData = [];
+
+    onMount(async () => {
+        const response = await fetch('/home/library/data');
+        if (response.ok) {
+            logData = await response.json();
+        } else {
+            console.error('Failed to fetch log data');
+        }
+    });
+
 </script>
 
 <div class="flex flex-col h-screen bg-slate-700">
