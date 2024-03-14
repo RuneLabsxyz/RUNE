@@ -18,7 +18,7 @@ export const POST: RequestHandler = async ({ request }) => {
             fs.mkdirSync(downloadsDir, { recursive: true });
         }
 
-        await downloadWebsite(data.zip_file, downloadsDir);
+        await downloadWebsite(data.zip_file, downloadsDir, data.name);
         
         await logDownload(data, downloadsDir);
 
@@ -34,19 +34,79 @@ export const POST: RequestHandler = async ({ request }) => {
     }
 };
 
-function downloadWebsite(zipPath: string, destination: string) {
+function downloadWebsite(zipPath: string, destination: string, gameName: string) {
     return new Promise((resolve, reject) => {
-        // Ensures the destination directory exists or creates it
-        const command = `mkdir -p ${destination} && curl -L ${zipPath} -o ${destination}/file.zip`;
-        exec(command, (error, stdout, stderr) => {
-            if (error) {
-                reject(error);
-                return;
+        // Ensure the destination directory exists or is created
+        const ensureDirectoryCommand = `mkdir -p "${destination}"`;
+    
+        exec(ensureDirectoryCommand, (dirError) => {
+          if (dirError) {
+            reject(`Failed to ensure destination directory exists: ${dirError}`);
+            return;
+          }
+    
+          // Proceed with downloading the ZIP file
+          const zipFilePath = path.join(destination, `${gameName}.zip`);
+          const downloadCommand = `wget -O "${zipFilePath}" "${zipPath}"`;
+    
+          exec(downloadCommand, (downloadError) => {
+            if (downloadError) {
+              reject(`Download failed: ${downloadError}`);
+              return;
             }
-            resolve(stdout);
+    
+            // Unzip the file
+            const unzipCommand = `unzip -o "${zipFilePath}" -d "${destination}"`;
+    
+            exec(unzipCommand, (unzipError) => {
+              if (unzipError) {
+                reject(`Unzip failed: ${unzipError}`);
+                return;
+              }
+    
+              // Remove the ZIP file after extraction
+              exec(`rm "${zipFilePath}"`, (removeError) => {
+                if (removeError) {
+                  console.log(`Failed to remove ZIP file: ${removeError}`);
+                  // Not critical, so we don't reject the promise here
+                }
+    
+                // Rename the extracted directory to gameName
+                fs.readdir(destination, (err, files) => {
+                  if (err) {
+                    reject(`Error reading the destination directory: ${err}`);
+                    return;
+                  }
+                  
+                  // Assuming the ZIP extracts into a single root directory
+                  const extractedDir = files.find(file => fs.statSync(path.join(destination, file)).isDirectory());
+                  if (!extractedDir) {
+                    reject('No directory found after extraction');
+                    return;
+                  }
+    
+                  const oldPath = path.join(destination, extractedDir);
+                  const newPath = path.join(destination, gameName);
+    
+                  if (oldPath !== newPath) {
+                    fs.rename(oldPath, newPath, (renameError) => {
+                      if (renameError) {
+                        reject(`Error renaming the extracted directory: ${renameError}`);
+                        return;
+                      }
+                      resolve(`Game '${gameName}' has been set up successfully in ${newPath}.`);
+                    });
+                  } else {
+                    resolve(`Game '${gameName}' is already set up in ${newPath}.`);
+                  }
+                });
+              });
+            });
+          });
         });
-    });
-}
+      });
+    }
+    
 
   async function logDownload(game: Game, downloadsDir: string) {
     const logFilePath = path.join(downloadsDir, 'downloadedGamesLog.json');
