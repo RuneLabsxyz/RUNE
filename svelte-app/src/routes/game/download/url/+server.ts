@@ -18,9 +18,10 @@ export const POST: RequestHandler = async ({ request }) => {
             fs.mkdirSync(downloadsDir, { recursive: true });
         }
 
+        await logDownload(data, downloadsDir);
+
         await downloadWebsite(data.link, downloadsDir);
         
-        await logDownload(data, downloadsDir);
 
         // Respond with the received data (and possibly other actions taken)
         return new Response(JSON.stringify({ received: data, message: 'Content downloaded successfully.' }), {

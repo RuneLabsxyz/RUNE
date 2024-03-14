@@ -18,7 +18,7 @@ export const POST: RequestHandler = async ({ request }) => {
             fs.mkdirSync(downloadsDir, { recursive: true });
         }
 
-        await downloadWebsite(data.link, downloadsDir);
+        await downloadWebsite(data.zip_file, downloadsDir);
         
         await logDownload(data, downloadsDir);
 
@@ -34,18 +34,19 @@ export const POST: RequestHandler = async ({ request }) => {
     }
 };
 
-function downloadWebsite(url: string, destination: string) {
+function downloadWebsite(zipPath: string, destination: string) {
     return new Promise((resolve, reject) => {
-      const command = `wget -mkEpnp -P ${destination} ${url}`;
-      exec(command, (error, stdout, stderr) => {
-        if (error) {
-          reject(error);
-          return;
-        }
-        resolve(stdout);
-      });
+        // Ensures the destination directory exists or creates it
+        const command = `mkdir -p ${destination} && curl -L ${zipPath} -o ${destination}/file.zip`;
+        exec(command, (error, stdout, stderr) => {
+            if (error) {
+                reject(error);
+                return;
+            }
+            resolve(stdout);
+        });
     });
-  }
+}
 
   async function logDownload(game: Game, downloadsDir: string) {
     const logFilePath = path.join(downloadsDir, 'downloadedGamesLog.json');

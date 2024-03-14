@@ -15,7 +15,16 @@
         } 
     }
 
+    $: console.log(cardData);
+
     async function downloadGameZip(zip: string) {
+        let response = await fetch("/game/download/zip", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(cardData)
+        });
     }
 
     async function downloadGameUrl(url: string) {
@@ -46,7 +55,7 @@
         </Card.Content>
         <Card.Footer>
             {#if hasInstallZip}
-                <Button on:click={() => downloadGameZip(cardData.zip_file)} variant="outline">Install</Button>
+                <Button on:click={(e) => {e.stopPropagation(); downloadGameZip(cardData.zip_file);}} variant="outline">Install</Button>
             {:else}
                 <AlertDialog.Root>
                     <AlertDialog.Trigger asChild let:builder>
