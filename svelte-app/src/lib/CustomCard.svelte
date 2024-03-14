@@ -20,7 +20,7 @@
 
     async function downloadGameUrl(url: string) {
         // Redirect to the Express endpoint with the game URL as a query parameter
-        let response = await fetch("/game/zip/download", {
+        let response = await fetch("/game/download/url", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
