@@ -2,34 +2,58 @@ name: CI/CD Pipeline
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
+  push:
+    branches: [main]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '18.13'
-    - name: Install dependencies
-      run: npm install
-
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.13'
+      - name: Install dependencies
+        run: npm install
+      # Add your build and test commands here
 
   prepare-release:
+    if: github.event_name == 'pull_request'
     needs: build-and-test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0 
-    - name: Use Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '18.13'
-    - name: Install dependencies
-      run: npm install
-    - name: Generate release (dry run)
-      run: npx standard-version --dry-run
-        #test
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.13'
+      - name: Install dependencies
+        run: npm install
+      - name: Generate release (dry run)
+        run: npx standard-version --dry-run
+
+  finalize-release:
+    if: github.event_name == 'push'
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.13'
+      - name: Install dependencies
+        run: npm install
+      - name: Create Release
+        run: npm run release
+      - name: Push changes
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git push --follow-tags origin main
