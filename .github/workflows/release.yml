@@ -32,3 +32,4 @@ jobs:
       run: npm install
     - name: Generate release (dry run)
       run: npx standard-version --dry-run
+        #test
