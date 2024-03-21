@@ -50,10 +50,11 @@ jobs:
           node-version: '18.13'
       - name: Install dependencies
         run: npm install
-      - name: Create Release
-        run: npm run release
-      - name: Push changes
+      - name: Configure Git
         run: |
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
-          git push --follow-tags origin main
+      - name: Create Release
+        run: npm run release
+      - name: Push changes
+        run: git push --follow-tags origin main
