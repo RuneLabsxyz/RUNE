@@ -125,6 +125,7 @@
     "ms": "^2.1.2",
     "mz": "^2.7.0",
     "nanoid": "^3.3.7",
+    "node-fetch": "^3.3.2",
     "node-releases": "^2.0.14",
     "normalize-path": "^3.0.0",
     "normalize-range": "^0.1.2",
